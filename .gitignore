@@ -9,6 +9,11 @@ __pycache__/
 *.pyo
 *.pyd
 
+# SQLite Database Files
+*.db
+*.sqlite
+*.sqlite3
+
 # IDEs
 .vscode/
 .idea/
