@@ -10,22 +10,29 @@ Bu proje, **Microsoft Foundry Local** ve **RAG (Retrieval-Augmented Generation)*
 *   [x] **1. Hafta:** RAG Konsepti, Manuel Simülasyon, Geliştirme Ortamı ve Basit LLM Bağlantısı (`main.py`)
 *   [x] **2. Hafta:** Temel Teknikler (Embeddings, Vektör Araması, SQLite ve İstem Mühendisliği)
 
+### 🔹 Aşama 2: Proje Uygulaması
+*   [x] **3. Hafta:** Veri Alımı ve Geri Getirme Boru Hattı (Data Ingestion & Retrieval Pipeline) (`3-hafta` Dalı)
+
 ---
 
-## 📚 2. Hafta - Sandbox Test Raporları (`hafta-2` Dalı)
+## 📚 3. Hafta - Ingestion & Retrieval Pipeline Raporu (`3-hafta` Dalı)
 
-### 1. Metin Yerleştirmeleri & Kosinüs Benzerliği (`test_embeddings.py`)
-*   **Model:** `qwen3-embedding-0.6b` (1024 boyutlu vektörler üretir)
-*   **Amaç:** Metinleri sayısal vektör uzayına taşıyarak anlamsal benzerliği (semantic similarity) hesaplamak.
-*   **Test Sonucu:** *"sıfırlama"* kelimesini içeren arama sorgusu, birebir kelime eşleşmesi olmamasına rağmen *"Reset"* geçen ilgili doküman ile **0.5268** oranında en yüksek benzerlik skorunu almıştır.
+Bu hafta projenin veri toplama (Ingestion) ve anlamsal geri getirme (Retrieval) boru hatlarını kurduk.
 
-### 2. SQLite ile Yerel Depolama (`test_sqlite.py`)
-*   **Veri Tabanı:** `local_rag_sandbox.db` (Sunucusuz, tek dosyalı yerel SQLite)
-*   **Amaç:** Üretilen embedding vektörlerini JSON olarak SQLite tablosunda saklamak ve sorgulamak.
-*   **Test Sonucu:** Tabloya metin ve vektör çiftleri kaydedilmiş, `SELECT` sorgusu ile başarıyla geriye dönüştürülmüştür.
+### 1. Bilgi Tabanı Tasarımı & Parçalama (Chunking) (`chunker.py`)
+*   **Klasör:** `data/` dizini altına Lumina-X cihazına ait 6 adet kılavuz metin dosyası (`wifi_errors.txt`, `storage_errors.txt` vb.) eklendi.
+*   **Parçalama Mantığı:** Metinler anlamsal bütünlüğün bozulmaması için paragraf düzeyinde (`\n\n` ile) bölünmüştür. Toplamda **12 adet metin parçası (chunk)** elde edilmiştir.
 
-### 3. Soru-Cevap İçin İstem Mühendisliği (`test_prompt.py`)
-*   **Sistem İstemi (System Prompt):** Modele *"Yalnızca verilen bağlama dayanarak cevap ver, bilmiyorsan belirt ve kaynak göster"* kuralları tanımlanmıştır.
-*   **Halüsinasyon Engelleme Testi:**
-    *   **Bağlamda Olan Soru:** Doğru cevap verilmiş ve `[Kaynak: LuminaX_Kılavuz_v2.txt]` bilgisi eklenmiştir.
-    *   **Bağlamda Olmayan Soru:** Model uydurma yapmayıp *"Üzgünüm, sağlanan belgelerde bu konu hakkında bilgi bulunmamaktadır."* demiştir.
+### 2. Toplu Veri Alımı ve Depolama (`ingest.py`)
+*   **Model:** `qwen3-embedding-0.6b` yerel embedding modeli.
+*   **İşlem:** Üretilen 12 parça tek bir hamlede (batch) modele gönderilerek 1024 boyutlu vektörleri hesaplanmıştır.
+*   **SQLite Kaydı:** Parçalar, metaverileri (kaynak dosya adı, parça sırası) ve JSON'a serileştirilmiş vektörleri ile birlikte `local_rag.db` veri tabanına toplu olarak (`executemany`) yazılmıştır.
+*   **Doğrulama:** Kayıt adedi veri tabanından `COUNT(*)` sorgusu ile kontrol edilerek doğrulanmıştır (12 / 12 kayıt).
+
+### 3. Geri Getirme (Retrieval) Algoritması (`search.py` & `test_search_queries.py`)
+*   **Metot:** RAM üzerinde **Kaba Kuvvet (Brute Force)** benzerlik karşılaştırması. Küçük veri setlerinde yüksek performans verir.
+*   **Fonksiyon:** `get_top_chunks(query, top_k)` ile kullanıcının sorgusu anlık olarak vektöre çevrilir, veri tabanındaki tüm vektörlerle kosinüs benzerliği hesaplanır ve en yüksek puanlı `top_k` kayıt döndürülür.
+*   **Çoklu Senaryo Testi:**
+    *   *Sorgu:* "Mavi ışık 102 hatası aldığımda ne yapmalıyım?" -> En yüksek skorla `wifi_errors.txt (Parça 1)` getirildi.
+    *   *Sorgu:* "Lumina-X cihazını banyoda kullanabilir miyim?" -> En yüksek skorla `safety_warnings.txt (Parça 0)` getirildi.
+    *   *Sorgu:* "Ekranın dokunmatik kalibrasyonunu nasıl yaparım?" -> En yüksek skorla `screen_issues.txt (Parça 1)` getirildi.
