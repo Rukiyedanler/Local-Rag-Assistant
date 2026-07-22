@@ -1,0 +1,5 @@
+[Başlık: Güç ve Donanımdan Sıfırlama]
+Cihaz donduğunda veya arayüz yanıt vermediğinde güç tuşuna 15 saniye boyunca kesintisiz basın. Bu işlem cihazı donanımsal olarak kapatmaya (hard shutdown) zorlayacaktır. 5 saniye bekledikten sonra güç tuşuna normal şekilde basarak cihazı tekrar açabilirsiniz.
+
+[Başlık: Fabrika Ayarlarına Dönüş]
+Lumina-X'i tamamen sıfırlayıp tüm verileri temizlemek için Ayarlar > Sistem > Fabrika Ayarları menüsüne gidin. Onay ekranında cihaz şifrenizi (varsayılan: 0000) girerek sıfırlama işlemini başlatın. Bu işlem geri alınamaz ve tüm kayıtlı akıllı ev bağlantılarını siler.

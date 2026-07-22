@@ -1,0 +1,6 @@
+[Başlık: Dahili Depolama Hataları]
+Lumina-X kontrol paneli işletim sistemi dosyalarını ve kullanıcı ayarlarını yerel depolama biriminde saklar.
+Hata Kodu 404 (Kırmızı Işık Sabit): Dahili depolama biriminin dolduğunu veya okuma/yazma hatası verdiğini gösterir.
+
+[Başlık: Kırmızı Işık Hatası Çözümü]
+Bu durumda cihazı kapatın, alt kısımdaki koruyucu kapağın altındaki MicroSD kartı çıkarıp tekrar takın ve cihazı güç tuşuna 10 saniye basılı tutarak açın. Eğer kırmızı ışık yanmaya devam ederse yerel teknik servise başvurun.

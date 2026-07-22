@@ -1,0 +1,6 @@
+[Başlık: Wi-Fi ve Bağlantı Hataları]
+Lumina-X akıllı ev kontrol paneli, sistem kararsızlığı veya ağ kopmaları durumunda ekranın sağ üst köşesinde hata kodları gösterir.
+Hata Kodu 102 (Mavi Işık Yanıp Sönüyor): Wi-Fi bağlantısının koptuğunu veya yerel ağ geçidine erişilemediğini gösterir.
+
+[Başlık: Mavi Işık Hatası Çözümü]
+Mavi ışık 102 hatasının çözümü için cihazın arkasındaki küçük delikte bulunan "Reset" butonuna bir ataş yardımıyla 5 saniye boyunca basılı tutun. Cihaz kendini yeniden başlatacak ve mavi ışık sabitlenecektir. Bu sıfırlama işlemi sırasında cihazın güç kablosunun takılı olduğundan emin olun.

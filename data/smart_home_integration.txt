@@ -1,0 +1,5 @@
+[Başlık: Akıllı Ev Entegrasyonu]
+Lumina-X, yerel ağ üzerinden Home Assistant, Alexa ve Google Home protokollerini destekler. Entegrasyon işlemi için cihazın yerel ağda sabit bir IP adresine sahip olması önerilir. Sabit IP ayarı için modem arayüzünüzü veya Lumina-X Ayarlar > Ağ > Gelişmiş menüsünü kullanabilirsiniz.
+
+[Başlık: Alexa Sesli Komut Kurulumu]
+Alexa entegrasyonu için mobil uygulamanızdan "Lumina Skill" araması yapın, etkinleştirin ve Lumina-X ekranında beliren 6 haneli eşleştirme kodunu girin. Bağlantı kurulduğunda "Alexa, Lumina'yı tara" diyerek cihazlarınızı sesle kontrol etmeye başlayabilirsiniz.

@@ -1,0 +1,5 @@
+[Başlık: Güvenlik Uyarısı ve Ortam Koşulları]
+Lumina-X cihazı hassas elektronik devreler içerir. Cihazı kesinlikle banyo, mutfak evyesi yakını gibi nemli ve doğrudan su buharına maruz kalabileceği ortamlarda kullanmayın.
+
+[Başlık: Elektrik Güvenliği]
+Temizlik yapmadan önce cihazın elektrik fişini mutlaka çekin. Cihazı temizlerken ıslak bez yerine hafif nemli veya kuru mikrofiber bez kullanın. Cihazın içine sıvı girmesi durumunda anında gücü kesin.

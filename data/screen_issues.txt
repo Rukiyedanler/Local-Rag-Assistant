@@ -1,0 +1,5 @@
+[Başlık: Ekran Titremesi ve Parlaklık Ayarları]
+Lumina-X dokunmatik IPS ekranı otomatik parlaklık sensörüne sahiptir. Ekranın titremesi (flicker) durumunda Ayarlar > Ekran altından "Otomatik Parlaklık" seçeneğini kapatıp parlaklığı manuel olarak %70 seviyesine ayarlayın.
+
+[Başlık: Kalibrasyon Sorunları]
+Eğer ekranda dokunduğunuz yerler yanlış algılanıyorsa, cihazı kapatın. Güç tuşuna basılı tutarken aynı anda ekranın sol üst köşesine basılı tutarak cihazı açın. Karşınıza gelen kalibrasyon artı işaretlerine sırasıyla dokunarak ekran hassasiyetini sıfırlayın.
