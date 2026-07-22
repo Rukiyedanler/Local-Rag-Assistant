@@ -94,17 +94,18 @@ def answer_query(mgr, user_question: str) -> str:
     chat_client.settings.temperature = 0.3
     chat_client.settings.top_p = 0.9
 
-    # 3. Adım: Katı Sistem İstem Mühendisliği
-    system_prompt = """Sen Lumina-X akıllı ev kontrol paneli teknik destek asistanısın. Görevin, kullanıcının sorularını YALNIZCA aşağıdaki BAĞLAM metnine dayanarak Türkçe olarak yanıtlamaktır.
+    # 3. Adım: Katı Sistem İstem Mühendisliği (Prompt Engineering)
+    system_prompt = """Sen Lumina-X akıllı ev kontrol paneli teknik destek asistanısın. Görevin, kullanıcının sorularını YALNIZCA sana sağlanan BAĞLAM (Context) metinlerine dayanarak Türkçe olarak yanıtlamaktır.
 
-Katı Kurallar:
-1. Sadece sana sunulan bağlamdaki bilgilere dayanarak cevap ver. Dış kaynaklı bilgileri veya kendi tahminlerini kesinlikle ekleme.
-2. Sorunun cevabı bağlamda açıkça yoksa tam olarak şu yanıtı ver: "Üzgünüm, sağlanan belgelerde bu konu hakkında bilgi bulunmamaktadır."
-3. Yanıtının sonuna mutlaka hangi bilgi kaynağını (Örn: [wifi_errors.txt - Parça 1]) kullandığını ekle.
+### TALİMATLAR:
+1. Sadece size sunulan <context> etiketleri içerisindeki bilgilere dayanarak cevap verin. Kendi dış bilgilerinizi veya tahminlerinizi kesinlikle kullanmayın.
+2. Aranan bilgi bağlam içinde doğrudan geçmiyorsa, başka hiçbir açıklama yapmadan sadece şu cümleyi yazın: "Üzgünüm, sağlanan belgelerde bu konu hakkında bilgi bulunmamaktadır."
+3. Bilgi bağlamda mevcutsa, net ve kısa bir cevap yazın ve cevabın sonuna kaynağı "[Kaynak: dosya_adı.txt - Parça X]" formatında ekleyin.
 """
 
-    user_content = f"""BAĞLAM:
+    user_content = f"""<context>
 {context_text}
+</context>
 
 KULLANICI SORUSU:
 {user_question}"""
@@ -119,6 +120,14 @@ KULLANICI SORUSU:
     try:
         response = chat_client.complete_chat(messages)
         answer = response.choices[0].message.content
+        
+        # Son İşlem (Post-processing) Güvenlik Duvarı:
+        # Eğer model bilgi bulamadığını belirten anahtar kelimeleri içeriyorsa, yanıtı standartlaştırıyoruz.
+        answer_lower = answer.lower()
+        negative_keywords = ["bilgi bulunmamaktadır", "bilgi bulunmuyor", "üzgünüm", "bilmiyorum", "bilgiye sahip değilim", "sağlanan belgelerde bu konu hakkında"]
+        if any(kw in answer_lower for kw in negative_keywords) or len(answer.strip()) < 10:
+            answer = "Üzgünüm, sağlanan belgelerde bu konu hakkında bilgi bulunmamaktadır."
+            
     except Exception as e:
         answer = f"Çıkarım hatası: {e}"
 
